@@ -1,0 +1,22 @@
+{% if workflow_can(commande, 'pay') %}
+<a  href="{{ path('commande_workflow', {'id' : commande.id,'statut' : 'pay'}) }}">pay</a>
+{% endif %}
+
+{% if workflow_can(commande, 'reject') %}
+<a  href="{{ path('commande_workflow', {'id' : commande.id,'statut' : 'reject'}) }}">annuler la commande</a>
+{% endif %}
+
+ {% if is_granted('ROLE_ADMIN') %}
+{% if workflow_can(commande, 'ship') %}
+<a href="{{ path('commande_workflow', {'id': commande.id,'statut' :'ship'}) }}"><button>expédier la commande</button></a>
+{% endif %}
+{% if workflow_can(commande, 'deliver') %}
+<a href="{{ path('commande_workflow', {'id': commande.id,'statut' :'deliver'}) }}"><button>livrer la commande</button></a>
+{% endif %}
+
+{% if workflow_can(commande, 'admin_fail') %}
+<a href="{{ path('commande_workflow', {'id': commande.id,'statut' :'admin_fail'}) }}"><button>annuler admin</button></a>
+{% endif %}
+{% else %}
+votre commande a été transmise
+{% endif %}

@@ -1,0 +1,39 @@
+framework:
+    workflows:
+        blog_publishing:
+            type: 'workflow'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'single_state'
+                arguments: 
+                    - 'statut'
+            supports:
+                - App\Entity\Commande
+            initial_marking: nonPassée
+            places:
+                - nonPassée
+                - passée
+                - validée
+                - expédiée
+                - livrée
+                - annulée
+            transitions:
+                order:
+                    from: nonPassée
+                    to:   passée
+                pay:
+                    from: passée
+                    to:   validée
+                admin_fail:
+                    from: validée
+                    to:   annulée
+                ship:
+                    from: validée
+                    to:   expédiée
+                deliver:
+                    from: expédiée
+                    to:   livrée
+                reject:
+                    from: passée
+                    to:   annulée
